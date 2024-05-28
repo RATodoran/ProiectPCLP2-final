@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Respins</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+  }
+
+  .ribbon {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2cm;
+    background-color: silver;
+  }
+
+  .box {
+    flex-grow: 1;
+    height: 100%;
+    border: 2px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .box h6 {
+    margin: 0;
+    font-size: 1em;
+  }
+
+  .main-box {
+    flex-grow: 2;
+    background-color: silver;
+    color: #000000;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content1 {
+    margin-top: 2cm; /* Înălțimea panglicii */  /* Continutul paginii */
+    padding: 1rem; /* Adăugăm puțin spațiu pentru conținut */
+    background-color: silver; /* Setăm culoarea portocalie */
+    height: calc(100vh - 2cm); /* Înălțimea este calculată pentru a ocupa restul paginii */
+  }
+  
+  
+
+
+  
+
+  
+  /* Stilurile pentru bara de jos */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2cm; /* Înălțimea barei de jos */
+    background-color: silver; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #000000;
+  }
+
+  .button {
+    padding: 0.5em 1em;
+    margin: 0 0.5em;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+
+  .yellow-button {
+    background-color: lightgray; /* Galben */
+    color: #000000; /* Negru */
+  }
+
+
+</style>
+</head>
+<body>
+
+<div class="ribbon">
+ 
+  <div class="box main-box">
+  <h4> Ne pare rau! </h4>
+  </div>
+
+</div>
+
+<div class="content1">
+<br> <br> <br> <br> <br> <br>
+  <center> <img src="imagini/respins.png" alt="poza cu un x rosu"> </center>
+  <br>
+  <center> <h1 style="color: #a32827;"> Testul a luat sfarsit. Ati fost declarat RESPINS la examenul de teorie!</h1> </center> 
+</div>
+
+
+<div class="footer">
+  <button class="button yellow-button" onclick="window.location.href='index.html'"> <span style="text-weight: bold;"> Inapoi la pagina principala ... </span></button>
+  
+</div>
+
+
+
+</body>
+</html>

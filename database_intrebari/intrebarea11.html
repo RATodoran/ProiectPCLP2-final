@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: silver;
+  }
+
+  .content1 {
+    padding: 1rem;
+    background-color: silver;
+  }
+  
+  .content2 {
+    margin-top: 0;
+    padding: 1rem;
+    background-color: silver;
+    height: calc(90vh);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .content2 button {
+    flex-grow: 1;
+    width: 17cm;
+    height: 2cm;
+    margin: 0.5em 0;
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .button {
+    padding: 0.5em 1em;
+    margin: 0 0.5em;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2cm;
+    background-color: silver;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #000000;
+  }
+
+  .yellow-button {
+    background-color: #ffff00;
+    color: #000000;
+  }
+
+  .red-button {
+    background-color: #ff0000;
+    color: #ffffff;
+  }
+
+  .green-button {
+    background-color: #00ff00;
+    color: #000000;
+  }
+</style>
+<body bgcolor="silver">
+  <center><h1>La apariția defectiunilor tehnice ale mecanismului de direcție se procedează astfel: </h1></center>
+  <div class="content2">
+    <div style="flex-grow: 1;">
+      <center><button class="raspunsA" onclick="handleButtonClick(this, 'raspunsA')"><span>Se apelează la cunoștințe care au mai întâlnit astfel de situații</span></button></center>
+      <br>
+      <center><button class="raspunsB" onclick="handleButtonClick(this, 'raspunsB')"><span>Se continuă deplasarea, întrucât defectiunea se datorează stării drumului public</span></button></center>
+      <br>
+      <center><button class="raspunsC" onclick="handleButtonClick(this, 'raspunsC')"><span>Se apelează numai la ateliere specializate, care au personal calificat</span></button></center>
+    </div>
+    <div style="flex-grow: 1; text-align: right;">
+    </div>
+  </div>
+  <div class="footer">
+    <button class="button yellow-button" onclick="goToNextQuestion()">Răspund mai târziu</button>
+    <button class="button red-button" onclick="resetButtons()">Modifică răspunsul</button>
+    <button class="button green-button" onclick="submitAnswer()">Trimite răspunsul</button>
+  </div>
+  <script>
+    var buttonValues = {
+      raspunsA: 0,
+      raspunsB: 0,
+      raspunsC: 0
+    };
+
+    function toggleValue(buttonClass) {
+      var buttons = document.getElementsByClassName(buttonClass);
+      for (var i = 0; i < buttons.length; i++) {
+        var button = buttons[i];
+        var currentValue = buttonValues[buttonClass];
+        var newValue = currentValue === 0 ? 1 : 0;
+        buttonValues[buttonClass] = newValue;
+      }
+    }
+
+    function handleButtonClick(button, buttonClass) {
+      button.disabled = true;
+      button.style.backgroundColor = "#fde38c";
+      button.onclick = null;
+      toggleValue(buttonClass);
+    }
+
+    function resetButtons() {
+      var buttons = document.querySelectorAll('.content2 button');
+      buttons.forEach(function(button) {
+        button.disabled = false;
+        button.style.backgroundColor = "";
+        button.onclick = function() {
+          handleButtonClick(this, this.className);
+        };
+      });
+      buttonValues = {
+        raspunsA: 0,
+        raspunsB: 0,
+        raspunsC: 0
+      };
+    }
+
+    function submitAnswer() {
+      if (buttonValues.raspunsA === 0 && buttonValues.raspunsB === 0 && buttonValues.raspunsC === 0) {
+        return; // Nu afișează nimic dacă niciun buton nu este selectat
+      }
+      var result = (buttonValues.raspunsA === 0 && buttonValues.raspunsB === 0 && buttonValues.raspunsC === 1) ? 1 : 0;
+      window.parent.postMessage(result, '*');
+      goToNextQuestion();
+    }
+
+    function goToNextQuestion() {
+      window.parent.postMessage(-1, '*');
+    }
+  </script>
+</body>
+</html>

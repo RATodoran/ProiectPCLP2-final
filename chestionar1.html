@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chestionarul cel vechi</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+  }
+
+  .ribbon {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2cm;
+    background-color: silver;
+  }
+
+  .box {
+    flex-grow: 1;
+    height: 100%;
+    border: 2px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .box h6 {
+    margin: 0;
+    font-size: 1em;
+  }
+
+  .main-box {
+    flex-grow: 2;
+    background-color: silver;
+    color: #000000;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content {
+    margin-top: 2cm; /* Înălțimea panglicii */
+    padding: 1rem; /* Adăugăm puțin spațiu pentru conținut */
+    background-color: silver; /* Setăm culoarea portocalie */
+    height: calc(85vh); /* Înălțimea este calculată pentru a ocupa restul paginii */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+</style>
+</head>
+<body>
+  <div class="ribbon">
+    <div class="box">
+      <h6><center><span style="size: 25">26</span></center>Intrebari initiale</h6>
+    </div>
+    <div class="box">
+      <h6><center><span id="intrebariRamase" style="size: 25">26</span></center>Intrebari ramase</h6>
+    </div>
+    <div class="box main-box"></div>
+    <div class="box">
+      <h6><center><span id="raspunsuriCorecte" style="color: green;">0</span></center>Raspunsuri corecte</h6>
+    </div>
+    <div class="box">
+      <h6><center><span id="raspunsuriGresite" style="color: red;">0</span></center>Raspunsuri gresite</h6>
+    </div>
+  </div>
+
+  <div class="content">
+    <iframe src="database_intrebari/intrebarea1.html" id="iframeIntrebare"></iframe>
+  </div>
+
+ <script>
+  var intrebariRamase = 26;
+  var raspunsuriCorecte = 0;
+  var raspunsuriGresite = 0;
+  var currentQuestion = 1;
+
+  function updateCountdown() {
+    var now = new Date();
+    var endTime = new Date(now.getTime() + (30 * 60 + 2) * 1000);
+
+    var timerInterval = setInterval(function() {
+      var now = new Date();
+      var timeDiff = endTime - now;
+
+      if (timeDiff < 0) {
+        clearInterval(timerInterval);
+        window.location.href = "respins.html";
+        return;
+      }
+
+      var minutes = Math.floor((timeDiff / 1000 / 60) % 60);
+      var seconds = Math.floor((timeDiff / 1000) % 60);
+
+      minutes = minutes.toString().padStart(2, '0');
+      seconds = seconds.toString().padStart(2, '0');
+
+      document.querySelector('.main-box').innerText = minutes + ':' + seconds;
+    }, 1000);
+  }
+
+  window.onload = updateCountdown;
+
+  function goToNextQuestion() {
+    currentQuestion++;
+    if (currentQuestion <= 26) {
+      document.getElementById('iframeIntrebare').src = 'database_intrebari/intrebarea' + currentQuestion + '.html';
+    }
+  }
+
+  window.addEventListener('message', function(event) {
+    if (event.data === 1) {
+      raspunsuriCorecte++;
+      intrebariRamase--;
+    } else if (event.data === 0) {
+      raspunsuriGresite++;
+      intrebariRamase--;
+    }
+    // Nu scădem contorul dacă event.data este -1 (răspund mai târziu)
+    
+    document.getElementById('intrebariRamase').innerText = intrebariRamase;
+    document.getElementById('raspunsuriCorecte').innerText = raspunsuriCorecte;
+    document.getElementById('raspunsuriGresite').innerText = raspunsuriGresite;
+
+    if (raspunsuriGresite >= 5) {
+      window.location.href = "respins.html";
+    } else if (raspunsuriCorecte > 21 && intrebariRamase === 0) {
+      window.location.href = "admis.html";
+    } else {
+      goToNextQuestion();
+    }
+  });
+</script>
+
+</body>
+</html>
